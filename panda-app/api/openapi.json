@@ -1,0 +1,344 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "FastAPI",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/patients": {
+      "post": {
+        "tags": [
+          "patient"
+        ],
+        "summary": "Create",
+        "operationId": "create_patients_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Patient-Input"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Patient-Output"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/patients/{nhs_number}": {
+      "delete": {
+        "tags": [
+          "patient"
+        ],
+        "summary": "Delete",
+        "operationId": "delete_patients__nhs_number__delete",
+        "parameters": [
+          {
+            "name": "nhs_number",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d{10}$",
+              "title": "The NHS Number of the patient you want to retrieve"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "patient"
+        ],
+        "summary": "Get",
+        "operationId": "get_patients__nhs_number__get",
+        "parameters": [
+          {
+            "name": "nhs_number",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d{10}$",
+              "title": "The NHS Number of the patient you want to retrieve"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Patient-Output"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "patient"
+        ],
+        "summary": "Update",
+        "operationId": "update_patients__nhs_number__patch",
+        "parameters": [
+          {
+            "name": "nhs_number",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d{10}$",
+              "title": "The NHS Number of the patient you want to retrieve"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Patient-Output"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "Patient-Input": {
+        "properties": {
+          "nhs_number": {
+            "type": "string",
+            "pattern": "^\\d{10}$",
+            "title": "Nhs Number"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 3,
+            "title": "Name"
+          },
+          "date_of_birth": {
+            "type": "string",
+            "format": "date",
+            "title": "Date Of Birth"
+          },
+          "postcode": {
+            "type": "string",
+            "pattern": "^([a-zA-Z]{1}[\\w\\d]{1,3}\\s*\\d[a-zA-Z]{2})$",
+            "title": "Postcode",
+            "examples": [
+              "AA12 5AA"
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "nhs_number",
+          "name",
+          "date_of_birth",
+          "postcode"
+        ],
+        "title": "Patient"
+      },
+      "Patient-Output": {
+        "properties": {
+          "nhsNumber": {
+            "type": "string",
+            "pattern": "^\\d{10}$",
+            "title": "Nhsnumber"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 3,
+            "title": "Name"
+          },
+          "dateOfBirth": {
+            "type": "string",
+            "format": "date",
+            "title": "Dateofbirth"
+          },
+          "postcode": {
+            "type": "string",
+            "pattern": "^([a-zA-Z]{1}[\\w\\d]{1,3}\\s*\\d[a-zA-Z]{2})$",
+            "title": "Postcode",
+            "examples": [
+              "AA12 5AA"
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "nhsNumber",
+          "name",
+          "dateOfBirth",
+          "postcode"
+        ],
+        "title": "Patient"
+      },
+      "PatientUpdate": {
+        "properties": {
+          "name": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 3
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          },
+          "dateOfBirth": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dateofbirth"
+          },
+          "postcode": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^([a-zA-Z]{1}[\\w\\d]{1,3}\\s*\\d[a-zA-Z]{2})$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Postcode",
+            "examples": [
+              "AA12 5AA"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "PatientUpdate"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}

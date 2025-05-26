@@ -48,8 +48,6 @@ async def delete(
     await patient_service.delete(nhs_number)
 
 
-# TODO - Open API info such as response and errors
-# Can put global errors in router object?
 @router.get("/{nhs_number}")
 @custom_exception_wrapper
 async def get(
@@ -66,6 +64,7 @@ async def get(
     patient_service = PatientService(repository=patient_repo)
 
     return await patient_service.get(nhs_number=nhs_number)
+
 
 @router.patch("/{nhs_number}")
 @custom_exception_wrapper

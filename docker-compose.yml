@@ -1,4 +1,3 @@
-# TODO - swap local password bits for env vars
 services:
   db:
     image: postgres:15
@@ -16,8 +15,9 @@ services:
     depends_on:
       - db
     environment:
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: ${DB_NAME}
+      DB_HOST: db
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
     ports:
       - "8000:8000"

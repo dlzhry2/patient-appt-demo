@@ -11,6 +11,8 @@ WORKDIR /app/panda-app
 COPY pyproject.toml poetry.lock ./
 
 # TODO - once dev requirements added, will need to ignore
+RUN apt-get update
+RUN apt-get install -y libpq-dev gcc
 RUN poetry install
 
 COPY api ./api

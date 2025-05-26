@@ -4,7 +4,7 @@ import logging
 from starlette import status
 from starlette.responses import JSONResponse
 
-from api.common.exceptions.custom_exceptions import PandaBaseException
+from api.common.exceptions.custom_exceptions import ValidationException, NotFoundException
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -18,10 +18,16 @@ def custom_exception_wrapper(func):
 
         # TODO wrap the pydantic validation exceptions
 
-        except PandaBaseException as e:
+        except ValidationException as e:
             return JSONResponse(
                 content={"message": str(e)},
-                status_code=e.status_code
+                status_code=status.HTTP_400_BAD_REQUEST
+            )
+
+        except NotFoundException as e:
+            return JSONResponse(
+                content={"message": str(e)},
+                status_code=status.HTTP_404_NOT_FOUND
             )
 
         except Exception as e:

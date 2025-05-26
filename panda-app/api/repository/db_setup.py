@@ -10,17 +10,16 @@ from sqlalchemy.ext.asyncio import (
     create_async_engine,
 )
 
+def get_connection_url() -> URL:
+    host = os.getenv("DB_HOST") if os.getenv("DB_HOST") is not None else "localhost"
 
-# TODO - helper for env variables
-# Could chunk up and tidy this file
-
-connection_string = URL.create(
-    "postgresql+asyncpg",
-    username=os.getenv("DB_USER"),
-    password=os.getenv("DB_PASSWORD"),
-    host="localhost",
-    database=os.getenv("DB_NAME")
-)
+    return URL.create(
+        "postgresql+asyncpg",
+        username=os.getenv("DB_USER"),
+        password=os.getenv("DB_PASSWORD"),
+        host=host,
+        database=os.getenv("DB_NAME")
+    )
 
 class DatabaseSessionManager:
     def __init__(self, host: URL):
@@ -62,7 +61,7 @@ class DatabaseSessionManager:
             await session.close()
 
 
-sessionmanager = DatabaseSessionManager(connection_string)
+sessionmanager = DatabaseSessionManager(get_connection_url())
 
 
 async def get_db_session():

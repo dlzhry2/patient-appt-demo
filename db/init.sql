@@ -1,5 +1,6 @@
 CREATE TABLE IF NOT EXISTS patients (
-    nhs_number VARCHAR(10) PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
+    nhs_number VARCHAR(10) UNIQUE NOT NULL,
     name VARCHAR(100) NOT NULL,
     dob DATE NOT NULL,
     postcode VARCHAR(8) NOT NULL

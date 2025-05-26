@@ -13,7 +13,7 @@ class PatientUpdate(BaseEntity):
         serialization_alias="dateOfBirth",
         alias="dateOfBirth"
     )] = None
-    postcode: Annotated[Optional[str], Field(pattern=UK_POSTCODE_REGEX)] = None
+    postcode: Annotated[Optional[str], Field(pattern=UK_POSTCODE_REGEX, examples=["AA12 5AA"])] = None
 
     class Config:
         extra = "forbid"

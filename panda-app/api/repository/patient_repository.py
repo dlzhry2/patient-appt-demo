@@ -1,3 +1,4 @@
+from sqlalchemy import select, Result
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from api.common.exceptions.custom_exceptions import NotFoundException
@@ -25,7 +26,10 @@ class PatientRepository(BaseRepository):
         await self.db_session.commit()
 
     async def get(self, nhs_number: str) -> Patient | None:
-        patient_model: PatientModel | None = await self.db_session.get(PatientModel, nhs_number)
+        result = await self.db_session.execute(
+            select(PatientModel).where(PatientModel.nhs_number == nhs_number)
+        )
+        patient_model = result.scalar_one_or_none()
 
         if not patient_model:
             return None
@@ -33,7 +37,10 @@ class PatientRepository(BaseRepository):
         return self.mapper.to_entity(patient_model)
 
     async def update(self, nhs_number: str, updates: dict) -> Patient:
-        patient_model: PatientModel | None = await self.db_session.get(PatientModel, nhs_number)
+        result = await self.db_session.execute(
+            select(PatientModel).where(PatientModel.nhs_number == nhs_number)
+        )
+        patient_model = result.scalar_one_or_none()
 
         if not patient_model:
             raise NotFoundException()
