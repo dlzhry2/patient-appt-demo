@@ -16,7 +16,7 @@ def custom_exception_wrapper(func):
         try:
             return await func(*args, **kwargs)
 
-        # TODO wrap the pydantic validation exceptions
+        # TODO wrap the pydantic validation exceptions and ensure common response format
 
         except ValidationException as e:
             return JSONResponse(

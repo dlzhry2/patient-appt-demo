@@ -1,3 +1,5 @@
+"""Module for validating NHS Numbers as per requirements in the NHS Data Dictionary
+https://www.datadictionary.nhs.uk/attributes/nhs_number.html"""
 import re
 
 from api.common.consts import NHS_NUMBER_REGEX

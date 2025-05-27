@@ -1,4 +1,4 @@
-from sqlalchemy import select, Result
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from api.common.exceptions.custom_exceptions import NotFoundException
@@ -20,16 +20,13 @@ class PatientRepository(BaseRepository):
         await self.db_session.commit()
 
     async def delete(self, nhs_number: str) -> None:
-        patient_model = await self.db_session.get(PatientModel, nhs_number)
+        patient_model = await self._get_by_nhs_number(nhs_number)
 
         await self.db_session.delete(patient_model)
         await self.db_session.commit()
 
     async def get(self, nhs_number: str) -> Patient | None:
-        result = await self.db_session.execute(
-            select(PatientModel).where(PatientModel.nhs_number == nhs_number)
-        )
-        patient_model = result.scalar_one_or_none()
+        patient_model = await self._get_by_nhs_number(nhs_number)
 
         if not patient_model:
             return None
@@ -37,10 +34,7 @@ class PatientRepository(BaseRepository):
         return self.mapper.to_entity(patient_model)
 
     async def update(self, nhs_number: str, updates: dict) -> Patient:
-        result = await self.db_session.execute(
-            select(PatientModel).where(PatientModel.nhs_number == nhs_number)
-        )
-        patient_model = result.scalar_one_or_none()
+        patient_model = await self._get_by_nhs_number(nhs_number)
 
         if not patient_model:
             raise NotFoundException()
@@ -50,3 +44,9 @@ class PatientRepository(BaseRepository):
 
         await self.db_session.commit()
         return self.mapper.to_entity(patient_model)
+
+    async def _get_by_nhs_number(self, nhs_number: str) -> PatientModel | None:
+        result = await self.db_session.execute(
+            select(PatientModel).where(PatientModel.nhs_number == nhs_number)
+        )
+        return result.scalar_one_or_none()

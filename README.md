@@ -16,10 +16,10 @@ You will need:
 - You may also want to install pgAdmin for interacting with the database
 
 ### Steps
-- Create a `.env` file in the root directory and copy the contents of the `.env-example` files to it.
+- Create a `.env` file in the root directory and copy the contents of the `.env-example` file into it.
 - Define your own values for the DB_* variables.
-- Ensure you `source` your new .env file to ensure the variables are available in your terminal.
-- Finally, simply run `docker compose up --build`. This will build you an API backend.
+- Ensure you export the variables from your new .env file to ensure they are available in your terminal.
+- Finally, run `docker compose up --build`. This will build you an API backend with a database.
 
 ### Interacting with the API
 Okay, looks like you're all setup. So now what?
@@ -27,6 +27,6 @@ Okay, looks like you're all setup. So now what?
 Simply navigate to http://localhost:8000/docs#
 This documents the API, and you can interact directly from the web page.
 
-Alternatively, you could perform requests against the local endpoint using a tool of your choice such a cURL or Postman.
+Alternatively, you can perform requests against the local endpoint using a tool of your choice such a cURL or Postman.
 
 If you would like to run the application in dev mode, then follow the instructions in the `./panda-app` README.

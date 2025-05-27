@@ -18,6 +18,7 @@ class Patient(BaseEntity):
     date_of_birth: Annotated[datetime.date, Field(serialization_alias="dateOfBirth")]
     postcode: Annotated[str, Field(pattern=UK_POSTCODE_REGEX, examples=["AA12 5AA"])]
 
+    @classmethod
     @field_validator('nhs_number')
     def nhs_number_is_valid(cls, v: str) -> str:
         if not validate_nhs_number(v):
