@@ -1,0 +1,15 @@
+Technical improvements:
+- implement full e2e tests
+- introduce linting and type checking e.g. ruff & mypy
+- add docstrings etc.
+- add more information to FastAPI routes and pydantic models to improve the generated schema
+- unit tests
+- (stretch) could add a pre-commit/manual step that copies the generated schema to the location in the repo, as it is nice
+to have the openapi.json file in the repository
+
+Features:
+- add, check and update appointment functionality (ensure update validation is implemented and timestamp is stored as UTC)
+- standardise validation error format and ensure it is documented in Open API schema
+- break name into GDS-compliant format
+- error message localisation
+- database migration tooling e.g. Alembic
